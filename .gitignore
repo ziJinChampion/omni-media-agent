@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+
+# Env & secrets
+.env
+.env.*
+!.env.example
+secrets/
+
+# Node
+node_modules/
+.next/
+dist/
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
+
+# Data
+*.sqlite3
+data/
