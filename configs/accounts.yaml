@@ -1,0 +1,17 @@
+accounts:
+  - name: animal-facts
+    platform: mock          # 占位，接真实平台时改 xhs/douyin
+    vertical: animal
+    keywords: [奇特动物, 深海生物, 动物冷知识]
+    cron: "0 9 * * *"
+    style_prompt: "小红书种草体：emoji 适度、分段短句、结尾互动提问"
+    human_review: false
+    max_posts_per_day: 1
+  - name: geo-facts
+    platform: mock
+    vertical: geography
+    keywords: [地理冷知识, 地貌奇观, 世界之最]
+    cron: "30 9 * * *"
+    style_prompt: "抖音文案体：悬念开头、节奏快、口语化"
+    human_review: true
+    max_posts_per_day: 1
