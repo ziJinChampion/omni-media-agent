@@ -57,15 +57,44 @@
 
 详细设计见 [docs/architecture.md](docs/architecture.md)。
 
+## 代码结构
+
+```
+├── core/               # Agent 核心：模型、流水线图、节点、工具适配
+│   ├── models/         # Pydantic DTO + SQLAlchemy 表（9 态工单状态机）
+│   └── agents/         # LangGraph 流水线（选题→去重→检索→配图→撰稿→评审→发布）
+├── apps/
+│   ├── api/            # FastAPI 管理台后端（账号/工单/审核 API）
+│   ├── worker/         # APScheduler 调度进程（cron 按账号触发流水线）
+│   └── web/            # React 管理台前端（见下节）
+├── configs/            # 账号矩阵配置（accounts.yaml：关键词/风格/cron/配额/审核模式）
+├── tests/              # pytest（20 项：schemas / 去重 / 状态机 / API / 调度）
+└── docs/               # 架构与决策文档
+```
+
+## 管理台前端（apps/web）
+
+「Mission Control 深空控制台」暗色主题 React 管理台，对接 `apps/api` 的 FastAPI 后端；API 不可达时自动降级内置 Mock 数据，可独立预览。
+
+- **技术栈**：Node 20 · React 19 + TypeScript · Vite 7 · Tailwind CSS 3.4 · shadcn/ui · framer-motion · @tanstack/react-query（10s 轮询）· react-router v7
+- **四个页面**：
+  - `/dashboard` — KPI 概览、9 态状态机流水线可视化、7 日发布趋势、账号健康卡（配额环 + cron 倒计时）、告警事件流
+  - `/accounts` — 账号矩阵：24h cron 调度泳道时间线、配置卡网格（关键词/风格/配额）、详情抽屉、手动触发
+  - `/jobs` — 内容工单：状态 chips 多选过滤 + 表格/看板双视图（卡片跨列 FLIP 动画）+ 560px 详情抽屉
+  - `/review` — 人工审核工作台：FIFO 队列（等待时长 / ←→ 键盘切换）+ 小红书/抖音皮肤化草稿预览 + AI 评分/素材版权面板 + A/R 快捷键审批（409 冲突感知）
+- **本地运行**：`cd apps/web && npm install && npm run dev`（详见 [apps/web/README.md](apps/web/README.md)；`src/components/ui/` 为 shadcn 原版组件，按该 README 一键再生）
+- **对接后端**：`VITE_API_BASE=http://localhost:8000 npm run dev`，或同源反代 `/api`
+
 ## 合规说明
 
 本项目仅用于学习与技术研究。自动化发布需遵守各平台的服务条款与社区规范，建议控制发布频率、保证内容原创性与信息准确性，避免触发平台风控。
 
 ## Roadmap
 
-- [ ] 内容生产 Agent MVP（单账号、单平台跑通"选题→发布"闭环）
-- [ ] LLM-as-Judge 质量闸门
-- [ ] 小红书 / 抖音发布适配层
+- [x] 内容生产 Agent MVP（单账号、单平台跑通"选题→发布"闭环，Mock 模式端到端可跑）
+- [x] LLM-as-Judge 质量闸门（三维打分 + 自动修订，上限 2 次）
+- [x] 调度器与状态机持久化（APScheduler cron + LangGraph 状态机落库）
+- [x] 管理台前端（Dashboard / Accounts / Jobs / Review 四页）
+- [ ] 小红书 / 抖音发布适配层（当前为 Mock adapter）
 - [ ] 账号矩阵管理 + 加密凭证存储
-- [ ] 调度器与状态机持久化
 - [ ] 数据看板与选题效果回流
