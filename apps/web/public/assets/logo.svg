@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="lg-stroke" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7C5CFF"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+    <radialGradient id="rg-node" cx="0.5" cy="0.5" r="0.5">
+      <stop stop-color="#B7A6FF"/>
+      <stop offset="0.55" stop-color="#7C5CFF"/>
+      <stop offset="1" stop-color="#7C5CFF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="rg-node-c" cx="0.5" cy="0.5" r="0.5">
+      <stop stop-color="#A5F3FC"/>
+      <stop offset="0.55" stop-color="#22D3EE"/>
+      <stop offset="1" stop-color="#22D3EE" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="f-glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="2.2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <!-- hexagon frame -->
+  <path d="M32 5 55.4 18.5v27L32 59 8.6 45.5v-27L32 5Z" stroke="url(#lg-stroke)" stroke-width="1.6" stroke-opacity="0.55" fill="rgba(124,92,255,0.06)"/>
+  <path d="M32 9.8 51.2 20.9v22.2L32 54.2 12.8 43.1V20.9L32 9.8Z" stroke="url(#lg-stroke)" stroke-width="0.8" stroke-opacity="0.25" fill="none"/>
+  <!-- distribution triangle -->
+  <g filter="url(#f-glow)">
+    <path d="M32 20 44 40H20L32 20Z" stroke="url(#lg-stroke)" stroke-width="1.4" stroke-linejoin="round" fill="none" stroke-opacity="0.9"/>
+  </g>
+  <!-- nodes -->
+  <circle cx="32" cy="20" r="7" fill="url(#rg-node)" opacity="0.8"/>
+  <circle cx="20" cy="40" r="7" fill="url(#rg-node-c)" opacity="0.8"/>
+  <circle cx="44" cy="40" r="7" fill="url(#rg-node)" opacity="0.8"/>
+  <g filter="url(#f-glow)">
+    <circle cx="32" cy="20" r="3.2" fill="#C4B5FD"/>
+    <circle cx="20" cy="40" r="3.2" fill="#A5F3FC"/>
+    <circle cx="44" cy="40" r="3.2" fill="#C4B5FD"/>
+  </g>
+  <!-- center core -->
+  <circle cx="32" cy="33.4" r="1.8" fill="#E8ECF4"/>
+</svg>
